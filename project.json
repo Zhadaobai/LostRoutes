@@ -1,0 +1,31 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 2,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : ["cocos2d","extensions","external"],
+
+    "jsList" : [
+        "src/resource.js",
+        "src/HomeScene.js",
+        "src/SystemConst.js",
+        "src/Enemy.js",
+        "src/Fighter.js",
+        "src/Bullet.js",
+        "src/GamePlayScene.js",
+        "src/GameOverScene.js",
+        "src/HelpScene.js",
+        "src/PluginManager.js",
+        "src/TencentEnv.js",
+        "src/jsb_anysdk.js",
+        "src/jsb_anysdk_constants.js",
+        "src/Payment.js",
+        "src/ShareScene.js",
+        "src/FriendsScene.js"
+    ]
+}
