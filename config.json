@@ -1,0 +1,20 @@
+{
+  "description": "20160107",
+  "design_resolution": {
+    "height": 960,
+    "policy": "SHOW_ALL",
+    "width": 640
+  },
+  "engine": "js",
+  "engine_version": "v3",
+  "entry_file": "main.js",
+  "game_name": "LostRoutes",
+  "game_type": "offline",
+  "orientation": "portrait",
+  "package_name": "org.cocos2dx.LostRoutes",
+  "security": {
+    "password": "your_password"
+  },
+  "version_code": "2",
+  "version_name": "0.0.0"
+}

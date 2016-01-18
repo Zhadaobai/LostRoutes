@@ -19,7 +19,6 @@
         "src/Bullet.js",
         "src/GamePlayScene.js",
         "src/GameOverScene.js",
-        "src/HelpScene.js",
         "src/PluginManager.js",
         "src/TencentEnv.js",
         "src/jsb_anysdk.js",

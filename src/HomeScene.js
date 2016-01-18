@@ -13,6 +13,7 @@ var HomeMenuLayer;
 HomeMenuLayer = cc.Layer.extend({
     keyBoardListener: null,
     buttonLayer: null,
+    buttonLayerListener: null,
     //agent: null,
 
     ctor: function () {
@@ -30,7 +31,7 @@ HomeMenuLayer = cc.Layer.extend({
         var privateKey = "3AF5441990AF5C2DF9F50122B01D2712";
         //var oauthLoginServer = "http://oauth.anysdk.com/api/OauthLoginDemo/Login.php";
         //var oauthLoginServer = "http://callback-play.cocos.com/api/User/LoginOauth/";
-        var oauthLoginServer = "http://127.0.0.1:8888"
+        var oauthLoginServer = "http://127.0.0.1:8888";
         agent = anysdk.agentManager;
 
         agent.init(appKey, appSecret, privateKey, oauthLoginServer);
@@ -111,6 +112,15 @@ HomeMenuLayer = cc.Layer.extend({
         buttomMenu.alignItemsVerticallyWithPadding(10);
         this.addChild(buttomMenu);
 
+        var btnUserInfo = cc.MenuItemImage.create(res.btn_normal_png, res.btn_press_png, this.printUserInfo, this);
+        var userInfoTips = cc.LabelTTF.create("后台打印登陆信息", "Arial", 25);
+        userInfoTips.setPosition(cc.p(btnUserInfo.getContentSize().width / 2, btnUserInfo.getContentSize().height * 0.4));
+        btnUserInfo.addChild(userInfoTips);
+        var userMenu = cc.Menu.create(btnUserInfo);
+        userMenu.x = winSize.width / 2;
+        userMenu.y =  winSize.height - btnUserInfo.getContentSize().height / 2;
+        this.addChild(userMenu);
+
         cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyReleased: function (keyCode, event) {
@@ -125,6 +135,58 @@ HomeMenuLayer = cc.Layer.extend({
         }, this);
 
         return true;
+    },
+
+    printUserInfo:function(){
+        pluginManager.getUserInfo(function(ret, msg, info){
+
+            cc.log("getUserInfo info : " + info);
+
+
+
+            var str111 = JSON.parse(info);
+            cc.log("URL=======" + str111["avatarUrl"]);
+
+            if(loginTypes){
+                //从token那里获取的用户信息来获取头像
+                for(var i = 0; i < loginTypes.length; i++){
+                    var loginType = loginTypes[i];
+
+                    if(loginType.loginType == "qq"){
+                        var accInfo = loginType.accInfo;
+
+                        if (accInfo) {
+                            var avatarUrl = accInfo.avatarUrl;
+                            cc.loader.loadImg(avatarUrl, {width: 100, height: 100}, function (error, img) {
+                                if (!error) {
+                                    cc.log("load image success");
+                                    cc.log("imgPath ===== " + avatarUrl);
+                                } else {
+                                    cc.log("load image fail please check~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                                }
+                            });
+                        };
+                    }else if(loginType.loginType == "wx"){
+                        var accInfo = loginType.accInfo;
+
+                        if (accInfo) {
+                            var avatarUrl = accInfo.avatarUrl;
+                            cc.loader.loadImg(avatarUrl, {width: 100, height: 100}, function (error, img) {
+                                if (!error) {
+                                    cc.log("load image success");
+                                    cc.log("imgPath ===== " + avatarUrl);
+                                } else {
+                                    cc.log("load image fail please check~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                                }
+                            });
+                        }
+                    };
+                };
+            };
+
+
+
+        });
     },
 
     menuItemCallback: function (sender) {
@@ -159,17 +221,20 @@ HomeMenuLayer = cc.Layer.extend({
             case HomeMenuActionTypes.MenuItemHelp:
                 cc.log("help");
 
-                //bg
-                //var sprite = new cc.TMXTiledMap(res.red_bg_tmx);
-                //sprite.anchorX = 0;
-                //sprite.anchorY = 0;
-                //sprite.setScaleX(cc.winSize.width / sprite.width);
-                //sprite.setScaleY(cc.winSize.height / sprite.height);
                 this.buttonLayer = new cc.LayerColor();
                 this.buttonLayer.setColor(cc.color(100,100,100));
                 this.buttonLayer.setOpacity(100);
-                this.buttonLayer.retain();
-                //this.addChild(sprite);
+
+                this.buttonLayerListener = cc.EventListener.create({
+                    event: cc.EventListener.TOUCH_ONE_BY_ONE,
+                    swallowTouches: true,
+                    onTouchBegan:function(touch,event){
+                        cc.log("[[[[[救命啊我被摸了]]]]]");
+                        return true;
+                    }
+                });
+                cc.eventManager.addListener(this.buttonLayerListener, this.buttonLayer);
+
                 this.addChild(this.buttonLayer);
 
                 this.setLoginInfo();
@@ -226,7 +291,8 @@ HomeMenuLayer = cc.Layer.extend({
         }
 
         var menu = cc.Menu.create();
-        menu.setAnchorPoint(cc.p(0, 0)), menu.setPosition(cc.p(0, 0));
+        menu.setAnchorPoint(cc.p(0, 0));
+        menu.setPosition(cc.p(0, 0));
 
         for (var i = 0; i < allTypes.length; i++) {
             var loginType = allTypes[i];
@@ -285,6 +351,11 @@ HomeMenuLayer = cc.Layer.extend({
                 }
             }
         }
+
+        var closeBtn = this.createButton("返回",this.closeButtonLayer);
+        closeBtn.setPosition(cc.p(winSize.width / 2, winSize.height * 0.4));
+        menu.addChild(closeBtn);
+
         cc.log("createLoginButton success");
         layer.addChild(menu);
         return layer;
@@ -292,10 +363,13 @@ HomeMenuLayer = cc.Layer.extend({
     createGameBeginButton: function () {
         var LogoutBtn = this.createButton("注销", this.cleanLoginInfo);
         var StartGameBtn = this.createButton("开始游戏", this.enterGame);
+        var closeBtn = this.createButton("返回", this.closeButtonLayer);
         LogoutBtn.setPosition(cc.p(LogoutBtn.getContentSize().width / 2 + 30, 80));
         StartGameBtn.setPosition(cc.p(winSize.width - StartGameBtn.getContentSize().width / 2 - 30, 80));
-        var menu = cc.Menu.create(StartGameBtn, LogoutBtn);
-        menu.setAnchorPoint(cc.p(0, 0)), menu.setPosition(cc.p(0, 0));
+        closeBtn.setPosition(cc.p(winSize.width / 2, winSize.height * 0.4));
+        var menu = cc.Menu.create(StartGameBtn, LogoutBtn, closeBtn);
+        menu.setAnchorPoint(cc.p(0, 0));
+        menu.setPosition(cc.p(0, 0));
         return menu;
     },
     createButton: function (tips, callback) {
@@ -304,6 +378,13 @@ HomeMenuLayer = cc.Layer.extend({
         tipsLabel.setPosition(cc.p(btn.getContentSize().width / 2, btn.getContentSize().height / 2));
         btn.addChild(tipsLabel);
         return btn;
+    },
+
+    closeButtonLayer:function(){
+        this.buttonLayer.removeAllChildren();
+        cc.eventManager.removeListener(this.buttonLayerListener);
+        this.buttonLayer.removeFromParent();
+        this.buttonLayer = null;
     },
 
     //登陆第一步
@@ -346,7 +427,7 @@ HomeMenuLayer = cc.Layer.extend({
     showLoginButton: function () {
         this.buttonLayer.removeAllChildren();
 
-        loginTypes = null
+        loginTypes = null;
         var param = x5_getAvailableLoginTypeParam();
         pluginManager.getAvailableLoginType(param, this.loginCallback.bind(this));
     },
