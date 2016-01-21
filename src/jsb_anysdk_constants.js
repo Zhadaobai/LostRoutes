@@ -376,7 +376,8 @@ var AccountType = {
     SINA_WEIBO:2,/**< enum value is sineweibo type. */
     TENCENT_WEIBO:3,/**< enum value is tecentweibo type */
     QQ:4,/**< enum value is qq type */
-    ND91:5/**< enum value is nd91 type. */
+    QQ_WEIBO:5,
+    ND91:6
 };
 
 var AccountOperate = {

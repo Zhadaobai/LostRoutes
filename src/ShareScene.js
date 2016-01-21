@@ -52,7 +52,7 @@ var ShareLayer = cc.Layer.extend({
                 title: "分享desu",
                 titleUrl: "http://tencent.cocosruntime.com/tencent/unittest/gameshare.html",
                 site: "噫",
-                siteUrl: "http://tencent.cocosruntime.com/tencent/unittest/gameshare.html",
+                siteUrl: "http://www.baidu.com",
                 text: "天地玄黄宇宙洪荒",
                 comment: "无",
                 description: "从前有座山",

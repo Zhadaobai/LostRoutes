@@ -258,4 +258,13 @@ if (cc.runtime && cc.runtime.config && cc.runtime.config["channel_id"] == "10011
         }
         return _pluginManager;
     }();
+
+    //toast遮蔽层
+    var _tencentUtils = null;
+    var tencentUtils = function () {
+        if (_tencentUtils == null) {
+            _tencentUtils = new TencentUtils();
+        }
+        return _tencentUtils;
+    }();
 }

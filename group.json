@@ -1,6 +1,8 @@
 {
   "boot": {
     "files": [
+      "src/AnySDKTest/AnySDKTest.js",
+      "src/AnySDKTest/PluginChannel.js",
       "src/Bullet.js",
       "src/Enemy.js",
       "src/Fighter.js",
@@ -9,10 +11,11 @@
       "src/GamePlayScene.js",
       "src/HomeScene.js",
       "src/Payment.js",
-      "src/PluginManager.js",
       "src/ShareScene.js",
       "src/SystemConst.js",
-      "src/TencentEnv.js",
+      "src/TencentEnv/LoginScene.js",
+      "src/TencentEnv/PluginManager.js",
+      "src/TencentEnv/TencentEnv.js",
       "src/jsb_anysdk.js",
       "src/jsb_anysdk_constants.js",
       "src/resource.js",

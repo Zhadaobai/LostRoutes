@@ -74,7 +74,16 @@ BOOL = {
     YES : 1
 };
 
+var CocosRuntimeEnv = {
+    TENCENT : 100115,
+    BAIDU   : 100117,
+    LIEBAO  : 100125,
+    WANBA   : 100206,
+    QQGAME  : 100217,
+    ANYSDK  : 888888
+};
 
+var g_env = CocosRuntimeEnv.ANYSDK;
 
 
 

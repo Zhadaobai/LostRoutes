@@ -19,8 +19,14 @@
         "src/Bullet.js",
         "src/GamePlayScene.js",
         "src/GameOverScene.js",
-        "src/PluginManager.js",
-        "src/TencentEnv.js",
+
+        "src/AnySDKTest/AnySDKTest.js",
+        "src/AnySDKTest/PluginChannel.js",
+
+        "src/TencentEnv/TencentEnv.js",
+        "src/TencentEnv/PluginManager.js",
+        "src/TencentEnv/LoginScene.js",
+
         "src/jsb_anysdk.js",
         "src/jsb_anysdk_constants.js",
         "src/Payment.js",
